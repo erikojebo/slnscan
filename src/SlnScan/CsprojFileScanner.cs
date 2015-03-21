@@ -12,14 +12,14 @@ namespace SlnScan
     {
         public IList<string> Output = new List<string>();
 
-        public IEnumerable<string> FindExcludedFiles(string rootDirectory, IList<string> ignoredNames)
+        public IEnumerable<string> FindExcludedFiles(string rootDirectory, IgnorePatternList ignoredNames)
         {
             var csprojFilePaths = Directory.GetFiles(rootDirectory, "*.csproj", SearchOption.AllDirectories);
 
             return csprojFilePaths.SelectMany(x => FindExcludedFilesInProject(x, ignoredNames));
         }
 
-        private IEnumerable<string> FindExcludedFilesInProject(string csprojFilePath, IList<string> ignoredNames)
+        private IEnumerable<string> FindExcludedFilesInProject(string csprojFilePath, IgnorePatternList ignoredNames)
         {
             var allFilesInProject = GetFilesInProject(csprojFilePath);
             var allFilesOnDisk = Directory.GetFiles(Path.GetDirectoryName(csprojFilePath), "*", SearchOption.AllDirectories);
@@ -75,34 +75,9 @@ namespace SlnScan
             return allIncludedFiles;
         }
 
-        private IEnumerable<string> ExcludeIgnoredFiles(string[] allFilesOnDisk, IList<string> ignoredNames)
+        private IEnumerable<string> ExcludeIgnoredFiles(string[] allFilesOnDisk, IgnorePatternList ignoredNames)
         {
-            return allFilesOnDisk.Where(x => !IsIgnored(x, ignoredNames));
-        }
-
-        private bool IsIgnored(string path, IList<string> ignoredNames)
-        {
-            if (string.IsNullOrEmpty(path))
-                return false;
-
-            var name = Path.GetFileName(path);
-
-            if (ignoredNames.Any(ignored => IsMatch(name, ignored)))
-                return true;
-
-            return IsIgnored(Path.GetDirectoryName(path), ignoredNames);
-        }
-
-        private bool IsMatch(string name, string ignored)
-        {
-            if (ignored.StartsWith("*."))
-                ignored = ".*\\." + ignored.Substring(2);
-            else if (ignored.StartsWith("*"))
-                ignored = ".*" + ignored.Substring(1);
-
-            var pattern = "^" + ignored + "$";
-
-            return Regex.IsMatch(name, pattern, RegexOptions.IgnoreCase);
+            return allFilesOnDisk.Where(x => !ignoredNames.IsMatch(x));
         }
     }
 }

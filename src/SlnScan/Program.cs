@@ -43,17 +43,17 @@ namespace SlnScan
             return 0;
         }
 
-        private static List<string> GetIgnoredNames(ArgumentList arguments)
+        private static IgnorePatternList GetIgnoredNames(ArgumentList arguments)
         {
-            var ignoredNames = new List<string>();
             var ignoreFilePath = arguments.GetFlagValue("ignore", "i");
 
             if (ignoreFilePath.HasValue)
             {
-                ignoredNames = File.ReadAllLines(ignoreFilePath.Value).ToList();
+                var ignoredNames = File.ReadAllLines(ignoreFilePath.Value).ToList();
+                return IgnorePatternList.Parse(ignoredNames.ToArray());
             }
 
-            return ignoredNames;
+            return new IgnorePatternList();
         }
     }
 }

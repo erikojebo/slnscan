@@ -8,6 +8,10 @@ namespace SlnScan
     {
         private readonly IEnumerable<IgnorePattern> _patterns;
 
+        public IgnorePatternList()
+        {
+        }
+
         private IgnorePatternList(IEnumerable<IgnorePattern> patterns)
         {
             _patterns = patterns;

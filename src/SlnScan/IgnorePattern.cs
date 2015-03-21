@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.IO;
+using System.Text.RegularExpressions;
 
 namespace SlnScan
 {
@@ -14,13 +15,21 @@ namespace SlnScan
                 _pattern = ".*\\." + _pattern.Substring(2);
             else if (_pattern.StartsWith("*"))
                 _pattern = ".*" + _pattern.Substring(1);
+
+            _pattern = "^" + _pattern + "$";
         }
 
         public bool IsMatch(string path)
         {
-            var pattern = "^" + _pattern + "$";
+            if (string.IsNullOrEmpty(path))
+                return false;
 
-            return Regex.IsMatch(path, pattern, RegexOptions.IgnoreCase);
+            var name = Path.GetFileName(path);
+
+            if (Regex.IsMatch(name, _pattern, RegexOptions.IgnoreCase))
+                return true;
+
+            return IsMatch(Path.GetDirectoryName(path));
         }
     }
 }
