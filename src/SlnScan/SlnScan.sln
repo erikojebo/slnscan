@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnScan", "SlnScan.csproj", "{B6E39C26-258B-4A1C-AAF9-8C00806DDE6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnScan.Tests", "..\SlnScan.Tests\SlnScan.Tests.csproj", "{91C51312-ABE3-41A8-90BA-1170176779D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B6E39C26-258B-4A1C-AAF9-8C00806DDE6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6E39C26-258B-4A1C-AAF9-8C00806DDE6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6E39C26-258B-4A1C-AAF9-8C00806DDE6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91C51312-ABE3-41A8-90BA-1170176779D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91C51312-ABE3-41A8-90BA-1170176779D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91C51312-ABE3-41A8-90BA-1170176779D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91C51312-ABE3-41A8-90BA-1170176779D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

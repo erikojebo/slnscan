@@ -1,0 +1,13 @@
+bin
+obj
+*.suo
+*.vssscc
+*.vspscc
+*.csproj
+*.ReSharper
+*.user
+StyleCop.Cache
+*.Designer.cs
+WpfPropertyGrid
+*.accessor
+kendoui
