@@ -64,5 +64,53 @@ namespace SlnScan.Tests
 
             Assert.IsTrue(pattern.IsMatch("lib/js"));
         }
+
+        [Test]
+        public void Two_directory_names_separated_by_slash_does_not_match_other_file_in_parent_directory()
+        {
+            var pattern = new IgnorePattern("lib/js");
+
+            Assert.IsFalse(pattern.IsMatch("lib/css"));
+        }
+
+        [Test]
+        public void Two_directory_names_separated_by_slash_matches_longer_path_ending_in_exact_match()
+        {
+            var pattern = new IgnorePattern("lib/js");
+
+            Assert.IsTrue(pattern.IsMatch("c:/root/lib/js"));
+        }
+
+        [Test]
+        public void Two_directory_names_separated_by_slash_matches_longer_path_beginning_with_exact_match()
+        {
+            var pattern = new IgnorePattern("lib/js");
+
+            Assert.IsTrue(pattern.IsMatch("lib/js/child"));
+        }
+        
+        [Test]
+        public void Directory_name_followed_by_file_glob_pattern_matches_file_in_parent_directory_matching_glob_pattern()
+        {
+            var pattern = new IgnorePattern("src/*.cs");
+
+            Assert.IsTrue(pattern.IsMatch("c:/code/foo/src/Program.cs"));
+        }
+        
+        [Test]
+        public void Directory_name_with_wildcard_followed_by_file_glob_pattern_matches_matching_file_name_in_matching_directory_name()
+        {
+            var pattern = new IgnorePattern("*Images/*.png");
+
+            Assert.IsTrue(pattern.IsMatch("c:/UploadedImages/Horse.png"));
+        }
+        
+        [Test]
+        public void Multi_level_pattern_matches_path_using_backslash_separators()
+        {
+            var pattern = new IgnorePattern("*Images/*.png");
+
+            Assert.IsTrue(pattern.IsMatch("c:\\UploadedImages\\Horse.png"));
+        }
     }
 }

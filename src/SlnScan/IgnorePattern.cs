@@ -18,20 +18,26 @@ namespace SlnScan
         {
             var parts = GetPathParts(path);
 
-            return IsMatch(parts);
+            return IsMatch(parts, _patternParts);
         }
 
-        private bool IsMatch(IList<string> parts)
+        private bool IsMatch(IList<string> pathParts, IList<string> patternParts)
         {
-            if (!parts.Any())
+            if (!pathParts.Any() || !patternParts.Any())
                 return false;
 
-            var regex = ToRegex(_patternParts.First());
+            var regex = ToRegex(patternParts.First());
 
-            if (regex.IsMatch(parts.First()))
+            var isMatchForCurrentLevel = regex.IsMatch(pathParts.First());
+            var remainingPatternParts = patternParts.Skip(1).ToList();
+            var remainingPathParts = pathParts.Skip(1).ToList();
+
+            if (isMatchForCurrentLevel && remainingPatternParts.Any())
+                return IsMatch(remainingPathParts, remainingPatternParts);
+            if (isMatchForCurrentLevel)
                 return true;
 
-            return IsMatch(parts.Skip(1).ToList());
+            return IsMatch(remainingPathParts, _patternParts);
         }
 
         private IList<string> GetPathParts(string path, IList<string> parts = null)
