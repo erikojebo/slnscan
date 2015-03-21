@@ -57,7 +57,17 @@ namespace SlnScan
             var csprojDirectory = Path.GetDirectoryName(csprojFilePath);
 
             var matchingElements = new List<XElement>();
-            var elementNames = new[] { "Content", "Compile", "EmbeddedResource", "None", "Resource", "Page", "ApplicationDefinition" };
+            
+            var elementNames = new[]
+            {
+                "Content", 
+                "Compile", 
+                "EmbeddedResource", 
+                "None", 
+                "Resource", 
+                "Page",
+                "ApplicationDefinition"
+            };
 
             foreach (var elementName in elementNames)
             {

@@ -112,5 +112,13 @@ namespace SlnScan.Tests
 
             Assert.IsTrue(pattern.IsMatch("c:\\UploadedImages\\Horse.png"));
         }
+
+        [Test]
+        public void Multi_level_pattern_does_not_match_shorter_path()
+        {
+            var pattern = new IgnorePattern("*Images/*.png");
+
+            Assert.IsFalse(pattern.IsMatch("c:\\UploadedImages"));
+        }
     }
 }
