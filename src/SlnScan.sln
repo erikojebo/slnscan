@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnScan", "SlnScan.csproj", "{B6E39C26-258B-4A1C-AAF9-8C00806DDE6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnScan", "SlnScan\SlnScan.csproj", "{B6E39C26-258B-4A1C-AAF9-8C00806DDE6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnScan.Tests", "..\SlnScan.Tests\SlnScan.Tests.csproj", "{91C51312-ABE3-41A8-90BA-1170176779D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlnScan.Tests", "SlnScan.Tests\SlnScan.Tests.csproj", "{91C51312-ABE3-41A8-90BA-1170176779D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
