@@ -56,5 +56,13 @@ namespace SlnScan.Tests
 
             Assert.IsFalse(pattern.IsMatch("obj"));
         }
+
+        [Test]
+        public void Two_directory_names_separated_by_slash_matches_the_exact_same_path()
+        {
+            var pattern = new IgnorePattern("lib/js");
+
+            Assert.IsTrue(pattern.IsMatch("lib/js"));
+        }
     }
 }

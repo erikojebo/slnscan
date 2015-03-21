@@ -1,35 +1,63 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace SlnScan
 {
     public class IgnorePattern
     {
-        private readonly string _pattern;
+        private string[] _patternParts;
 
         public IgnorePattern(string pattern)
         {
-            _pattern = pattern;
-
-            if (_pattern.StartsWith("*."))
-                _pattern = ".*\\." + _pattern.Substring(2);
-            else if (_pattern.StartsWith("*"))
-                _pattern = ".*" + _pattern.Substring(1);
-
-            _pattern = "^" + _pattern + "$";
+            _patternParts = pattern.Split('/');
         }
 
         public bool IsMatch(string path)
         {
-            if (string.IsNullOrEmpty(path))
+            var parts = GetPathParts(path);
+
+            return IsMatch(parts);
+        }
+
+        private bool IsMatch(IList<string> parts)
+        {
+            if (!parts.Any())
                 return false;
+
+            var regex = ToRegex(_patternParts.First());
+
+            if (regex.IsMatch(parts.First()))
+                return true;
+
+            return IsMatch(parts.Skip(1).ToList());
+        }
+
+        private IList<string> GetPathParts(string path, IList<string> parts = null)
+        {
+            parts = parts ?? new List<string>();
+
+            if (string.IsNullOrEmpty(path))
+                return parts;
 
             var name = Path.GetFileName(path);
 
-            if (Regex.IsMatch(name, _pattern, RegexOptions.IgnoreCase))
-                return true;
+            parts.Insert(0, name);
 
-            return IsMatch(Path.GetDirectoryName(path));
+            return GetPathParts(Path.GetDirectoryName(path), parts);
+        }
+
+        private Regex ToRegex(string pattern)
+        {
+            if (pattern.StartsWith("*."))
+                pattern = ".*\\." + pattern.Substring(2);
+            else if (pattern.StartsWith("*"))
+                pattern = ".*" + pattern.Substring(1);
+
+            pattern = "^" + pattern + "$";
+
+            return new Regex(pattern, RegexOptions.IgnoreCase);
         }
     }
 }
